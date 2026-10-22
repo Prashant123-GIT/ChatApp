@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "Chat Backend API Collection",
+    "description": "Postman Collection for Chat Backend (PostgreSQL + Firebase Firestore)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0. Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        }
+      }
+    },
+    {
+      "name": "1. Create or Get Chat",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userAId\": \"user-alice-101\",\n  \"userBId\": \"user-bob-102\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/chat/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["chat", "create"]
+        }
+      }
+    },
+    {
+      "name": "2. Send Message",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"senderId\": \"user-alice-101\",\n  \"text\": \"Hello Bob! Testing our chat backend.\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/chat/{{chatId}}/message/send",
+          "host": ["{{baseUrl}}"],
+          "path": ["chat", "{{chatId}}", "message", "send"]
+        }
+      }
+    },
+    {
+      "name": "3. Get Messages",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/chat/{{chatId}}/messages?limit=50",
+          "host": ["{{baseUrl}}"],
+          "path": ["chat", "{{chatId}}", "messages"],
+          "query": [
+            { "key": "limit", "value": "50" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "4. Mark Message Read",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": \"user-bob-102\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/chat/{{chatId}}/message/{{messageId}}/read",
+          "host": ["{{baseUrl}}"],
+          "path": ["chat", "{{chatId}}", "message", "{{messageId}}", "read"]
+        }
+      }
+    },
+    {
+      "name": "5. Update Last Seen Message",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"userId\": \"user-bob-102\",\n  \"messageId\": \"{{messageId}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/chat/{{chatId}}/lastseen",
+          "host": ["{{baseUrl}}"],
+          "path": ["chat", "{{chatId}}", "lastseen"]
+        }
+      }
+    },
+    {
+      "name": "6. List User Chats",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/user/user-alice-101/chats",
+          "host": ["{{baseUrl}}"],
+          "path": ["user", "user-alice-101", "chats"]
+        }
+      }
+    },
+    {
+      "name": "Bonus - Create Group Chat",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Engineering Squad\",\n  \"creatorId\": \"user-alice-101\",\n  \"memberIds\": [\"user-bob-102\", \"user-charlie-103\"]\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/chat/group/create",
+          "host": ["{{baseUrl}}"],
+          "path": ["chat", "group", "create"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "chatId",
+      "value": "de440618-66cf-4b8a-92ad-feccd67d7d9f"
+    },
+    {
+      "key": "messageId",
+      "value": "e98ce541-c744-412f-9ff1-7255b90a7dd7"
+    }
+  ]
+}
